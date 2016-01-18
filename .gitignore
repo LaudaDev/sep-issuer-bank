@@ -38,10 +38,9 @@ Thumbs.db
 
 # Java & Spring #
 ######################
-*~
-**/.classpath
-**/.project
-**/.settings/*
+*.classpath
+*.project
+*.settings
 
 # ignore node_modules and bower assets globally
 
