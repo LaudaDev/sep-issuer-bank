@@ -50,3 +50,4 @@ Thumbs.db
 
 # ignore dist folder globally
 **/dist
+/bin/
