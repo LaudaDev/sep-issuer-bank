@@ -36,13 +36,12 @@ public class BankController {
 	public Map<String, Object> checkCreditCard(@RequestBody CheckCardRequest request){
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		
-		// TODO check if request with same timestamp already exists 
-		
+		// TODO check if request with same timestamp already exists
 		if (request != null){ 
 			checkCardRequestRepository.save(request);
 			CreditCard card = findCreditCard(request);
 			
-			if ( card != null ){
+			if ( card != null && !checkCardExpiration(card) ){
 				if ( card.canPay(request.getAmount()) ){
 					Transaction transaction = doPaying(card, request);
 					response.put("message", "Credit card is valid. Paying done");
@@ -74,8 +73,18 @@ public class BankController {
 				break;
 			}
 		}
-		
 		return card;
+	}
+	
+	public boolean checkCardExpiration(CreditCard card){
+		boolean expired = false;
+		Date now = new Date();	
+		
+		if ( !card.getExpiryDate().after(now) ){
+			expired = true;
+		}
+		
+		return expired;
 	}
 	
 	public Transaction doPaying(CreditCard card, CheckCardRequest request){
