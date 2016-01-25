@@ -1,8 +1,6 @@
-/*package app.controllers;
+package app.controllers;
 
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.model.CheckCardRequest;
-import app.model.CreditCard;
-import app.model.Transaction;
 import app.repository.CheckCardRequestRepository;
 import app.repository.CreditCardRepository;
 import app.repository.TransactionRepository;
+import app.util.Config;
 
 
 @RestController
@@ -36,8 +33,16 @@ public class BankController {
 	public Map<String, Object> checkCreditCard(@RequestBody CheckCardRequest request){
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		
+		System.out.println(request.toString());
+		
+		if ( isRequestValid(request) ){
+			System.out.println("request is valid");
+		} else {
+			System.out.println("request invalid");
+		}
+		
 		// TODO check if request with same timestamp already exists
-		if (request != null){ 
+		/*if (request != null){ 
 			checkCardRequestRepository.save(request);
 			CreditCard card = findCreditCard(request);
 			
@@ -58,11 +63,11 @@ public class BankController {
 			
 		} else {
 			response.put("message", "Invalid data for checking credit card");
-		}
+		}*/
 		return response;
 	}
 	
-	public CreditCard findCreditCard(CheckCardRequest request){
+	/*public CreditCard findCreditCard(CheckCardRequest request){
 		CreditCard card = null;
 		List<CreditCard> cards = creditCardRepository.findAll();
 		
@@ -94,9 +99,27 @@ public class BankController {
 		card.setAmount(card.getAmount().subtract(request.getAmount()));
 		creditCardRepository.save(card);		
 		return transaction;
+	}*/
+	
+	public boolean isRequestValid(CheckCardRequest request){
+		
+		if ( request.getCardInfo().getPan() == null || !request.getCardInfo().getPan().matches(Config.panRegex) ){
+			return false;
+		}
+		
+		if ( request.getCardInfo().getSecurityCode() < 100 || request.getCardInfo().getSecurityCode() > 999 ) {
+			return false;
+		}
+		
+		if ( request.getCardInfo().getHolderName() == null || request.getCardInfo().getHolderName().equals("") ){
+			return false;
+		}
+		
+		
+		return true;
 	}
 	
 	
 
 	
-}*/
+}

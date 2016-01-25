@@ -12,17 +12,17 @@ public class CheckCardRequest {
 	private String id;
 	private CardInfo cardInfo;
 	private AcquirerInfo acquirerInfo;
-	private BigDecimal amount;
+	private BigDecimal transactionAmount;
 	
 	public CheckCardRequest(){
 		super();
 	}
 
-	public CheckCardRequest(CardInfo cardInfo, AcquirerInfo acquirerInfo, BigDecimal amount) {
+	public CheckCardRequest(CardInfo cardInfo, AcquirerInfo acquirerInfo, BigDecimal transactionAmount) {
 		super();
 		this.cardInfo = cardInfo;
 		this.acquirerInfo = acquirerInfo;
-		this.amount = amount;
+		this.transactionAmount = transactionAmount;
 	}
 
 	public String getId() {
@@ -49,12 +49,18 @@ public class CheckCardRequest {
 		this.acquirerInfo = acquirerInfo;
 	}
 
-	public BigDecimal getAmount() {
-		return amount;
+	public BigDecimal getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}	
+	public void setTransactionAmount(BigDecimal transactionAmount) {
+		this.transactionAmount = transactionAmount;
+	}
+	
+	@Override
+	public String toString(){
+		return cardInfo.getPan() + ", " + cardInfo.getSecurityCode() + ", " + cardInfo.getHolderName() + ", " + cardInfo.getExpirationDate() 
+				+ " -- " + acquirerInfo.getOrderId() + ", " + acquirerInfo.getTimestamp() + " -- " + transactionAmount;
+	}
 	
 }
