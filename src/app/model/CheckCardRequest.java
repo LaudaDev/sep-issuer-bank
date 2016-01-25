@@ -1,7 +1,6 @@
 package app.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,27 +10,18 @@ public class CheckCardRequest {
 	
 	@Id
 	private String id;
-	private String acquirerOrderId;
-	private Date acquirerTimestamp;
-	private String pan;
-	private int securityCode;
-	private String cardHolderName;
-	private Date expiryDate;
+	private CardInfo cardInfo;
+	private AcquirerInfo acquirerInfo;
 	private BigDecimal amount;
 	
 	public CheckCardRequest(){
 		super();
 	}
 
-	public CheckCardRequest(String acquirerOrderId, Date acquirerTimestamp, String pan, int securityCode, String cardHolderName, Date expiryDate,
-			BigDecimal amount) {
+	public CheckCardRequest(CardInfo cardInfo, AcquirerInfo acquirerInfo, BigDecimal amount) {
 		super();
-		this.acquirerOrderId = acquirerOrderId;
-		this.acquirerTimestamp = acquirerTimestamp;
-		this.pan = pan;
-		this.securityCode = securityCode;
-		this.cardHolderName = cardHolderName;
-		this.expiryDate = expiryDate;
+		this.cardInfo = cardInfo;
+		this.acquirerInfo = acquirerInfo;
 		this.amount = amount;
 	}
 
@@ -43,52 +33,20 @@ public class CheckCardRequest {
 		this.id = id;
 	}
 
-	public String getAcquirerOrderId() {
-		return acquirerOrderId;
+	public CardInfo getCardInfo() {
+		return cardInfo;
 	}
 
-	public void setAcquirerOrderId(String acquirerOrderId) {
-		this.acquirerOrderId = acquirerOrderId;
-	}
-	
-	public Date getAcquirerTimestamp() {
-		return acquirerTimestamp;
+	public void setCardInfo(CardInfo cardInfo) {
+		this.cardInfo = cardInfo;
 	}
 
-	public void setAcquirerTimestamp(Date acquirerTimestamp) {
-		this.acquirerTimestamp = acquirerTimestamp;
+	public AcquirerInfo getAcquirerInfo() {
+		return acquirerInfo;
 	}
 
-	public String getPan() {
-		return pan;
-	}
-
-	public void setPan(String pan) {
-		this.pan = pan;
-	}
-
-	public int getSecurityCode() {
-		return securityCode;
-	}
-
-	public void setSecurityCode(int securityCode) {
-		this.securityCode = securityCode;
-	}
-
-	public String getCardHolderName() {
-		return cardHolderName;
-	}
-
-	public void setCardHolderName(String cardHolderName) {
-		this.cardHolderName = cardHolderName;
-	}
-
-	public Date getExpiryDate() {
-		return expiryDate;
-	}
-
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
+	public void setAcquirerInfo(AcquirerInfo acquirerInfo) {
+		this.acquirerInfo = acquirerInfo;
 	}
 
 	public BigDecimal getAmount() {
@@ -97,11 +55,6 @@ public class CheckCardRequest {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
+	}	
 	
-	@Override
-	public String toString(){
-		return "CheckCardRequest [id= " + id + ", acquirerOrderId= " + acquirerOrderId + ", acquirerTimestamp= " + acquirerTimestamp + ", pan= " + pan + ", cardHolderName= " + cardHolderName + ", securityCode= "
-				+ securityCode + ", expiryDate= " + expiryDate + ", amount= " + amount +  "]";
-	}
 }
