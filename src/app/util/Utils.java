@@ -43,6 +43,7 @@ public class Utils {
 				BigDecimal amount = new BigDecimal(random.nextDouble() * 950000 + 50000).setScale(2, RoundingMode.CEILING);
  			
 				CreditCard card = new CreditCard(pan.toString(), securityCode, cardHolderName, calendar.getTime(), amount);
+				card.setId(i);
 				cards.add(card);
 			}
 		

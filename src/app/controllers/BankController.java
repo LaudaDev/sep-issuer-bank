@@ -1,8 +1,5 @@
 package app.controllers;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.model.CheckCardRequest;
-import app.repository.CheckCardRequestRepository;
-import app.repository.CreditCardRepository;
-import app.repository.TransactionRepository;
-import app.util.Config;
+import app.model.CreditCard;
+import app.model.Response;
+import app.service.CardService;
+import app.service.CheckCardRequestService;
+import app.service.CheckCardResponseService;
 
 
 @RestController
@@ -21,24 +19,29 @@ import app.util.Config;
 public class BankController {
 	
 	@Autowired
-	private CheckCardRequestRepository checkCardRequestRepository;
+	private CheckCardRequestService checkCardRequestService;
 	
 	@Autowired
-	private CreditCardRepository creditCardRepository;
+	private CheckCardResponseService checkCardResponseService;
 	
 	@Autowired
-	private TransactionRepository transactionRepository;
+	private CardService cardService;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/checkcard")
-	public Map<String, Object> checkCreditCard(@RequestBody CheckCardRequest request){
-		Map<String, Object> response = new LinkedHashMap<String, Object>();
+	public Response checkCreditCard(@RequestBody CheckCardRequest request){
 		
 		System.out.println(request.toString());
 		
-		if ( isRequestValid(request) ){
-			System.out.println("request is valid");
-		} else {
-			System.out.println("request invalid");
+		if ( !checkCardRequestService.isRequestValid(request) ){
+			System.out.println("invalid");
+			return checkCardResponseService.createBadRequestResponse("04");
+		}
+		
+		CreditCard card = cardService.findCreditCard(request.getCardInfo());
+		
+		if ( card == null ){
+			System.out.println("invalid card");
+			return checkCardResponseService.createBadRequestResponse("01");
 		}
 		
 		// TODO check if request with same timestamp already exists
@@ -64,33 +67,13 @@ public class BankController {
 		} else {
 			response.put("message", "Invalid data for checking credit card");
 		}*/
-		return response;
+		System.out.println("valid");
+		return checkCardResponseService.createResponse("00", request);
 	}
 	
-	/*public CreditCard findCreditCard(CheckCardRequest request){
-		CreditCard card = null;
-		List<CreditCard> cards = creditCardRepository.findAll();
-		
-		for ( CreditCard c : cards){
-			if ( c.getPan().equals(request.getPan()) && c.getSecurityCode() == request.getSecurityCode() &&
-					c.getCardHolderName().equals(request.getCardHolderName()) && c.getExpiryDate().equals(request.getExpiryDate()) ){
-				card = c;
-				break;
-			}
-		}
-		return card;
-	}
+	/*
 	
-	public boolean checkCardExpiration(CreditCard card){
-		boolean expired = false;
-		Date now = new Date();	
-		
-		if ( !card.getExpiryDate().after(now) ){
-			expired = true;
-		}
-		
-		return expired;
-	}
+	
 	
 	public Transaction doPaying(CreditCard card, CheckCardRequest request){
 	
@@ -100,26 +83,5 @@ public class BankController {
 		creditCardRepository.save(card);		
 		return transaction;
 	}*/
-	
-	public boolean isRequestValid(CheckCardRequest request){
-		
-		if ( request.getCardInfo().getPan() == null || !request.getCardInfo().getPan().matches(Config.panRegex) ){
-			return false;
-		}
-		
-		if ( request.getCardInfo().getSecurityCode() < 100 || request.getCardInfo().getSecurityCode() > 999 ) {
-			return false;
-		}
-		
-		if ( request.getCardInfo().getHolderName() == null || request.getCardInfo().getHolderName().equals("") ){
-			return false;
-		}
-		
-		
-		return true;
-	}
-	
-	
-
-	
+			
 }

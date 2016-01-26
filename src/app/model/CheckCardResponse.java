@@ -4,10 +4,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class CheckCardResponse {
+public class CheckCardResponse extends Response {
 	
 	@Id
-	private String id;
+	private int id;
 	private AcquirerInfo acquirerInfo;
 	private IssuerInfo issuerInfo;
 	private TransactionStatus transactionStatus;
@@ -16,11 +16,11 @@ public class CheckCardResponse {
 		super();
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

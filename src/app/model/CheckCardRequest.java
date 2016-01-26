@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CheckCardRequest {
 	
 	@Id
-	private String id;
+	private int id;
 	private CardInfo cardInfo;
 	private AcquirerInfo acquirerInfo;
 	private BigDecimal transactionAmount;
@@ -25,11 +25,11 @@ public class CheckCardRequest {
 		this.transactionAmount = transactionAmount;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

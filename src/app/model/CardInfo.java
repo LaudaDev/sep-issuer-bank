@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import app.util.Config;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Document
@@ -13,7 +15,7 @@ public class CardInfo {
 	private int securityCode;
 	private String holderName;
 	
-	@JsonFormat(pattern = "MM/yy", timezone="CET")
+	@JsonFormat(pattern = Config.cardExpirationDateFormat, timezone="CET")
 	private Date expirationDate;
 	
 	public CardInfo(){

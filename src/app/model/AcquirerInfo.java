@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import app.util.Config;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Document	
@@ -11,7 +13,7 @@ public class AcquirerInfo {
 	
 	private int orderId;
 	
-	@JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss", timezone="CET")
+	@JsonFormat(pattern = Config.timestampFormat, timezone="CET")
 	private Date timestamp;
 	
 	public AcquirerInfo(){

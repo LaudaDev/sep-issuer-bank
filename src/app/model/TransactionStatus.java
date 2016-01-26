@@ -2,24 +2,24 @@ package app.model;
 
 public class TransactionStatus {
 	
-	private int code;
+	private String code;
 	private String message;
 	
 	public TransactionStatus(){
 		super();
 	}
 
-	public TransactionStatus(int code, String message) {
+	public TransactionStatus(String code, String message) {
 		super();
 		this.code = code;
 		this.message = message;
 	}
 
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 

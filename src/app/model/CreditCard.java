@@ -10,31 +10,31 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CreditCard {
 	
 	@Id
-	private String id;
+	private int id;
 	private String pan;
 	private int securityCode;
-	private String cardHolderName;
-	private Date expiryDate;
+	private String holderName;
+	private Date expirationDate;
 	private BigDecimal amount;
 	
 	public CreditCard(){
 		super();
 	}
 	
-	public CreditCard(String pan, int securityCode, String cardHolderName, Date expiryDate, BigDecimal amount){
+	public CreditCard(String pan, int securityCode, String holderName, Date expirationDate, BigDecimal amount){
 		super();
 		this.pan = pan;
 		this.securityCode = securityCode;
-		this.cardHolderName = cardHolderName;
-		this.expiryDate = expiryDate;
+		this.holderName = holderName;
+		this.expirationDate = expirationDate;
 		this.amount = amount;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -54,20 +54,20 @@ public class CreditCard {
 		this.securityCode = securityCode;
 	}
 
-	public String getCardHolderName() {
-		return cardHolderName;
+	public String getholderName() {
+		return holderName;
 	}
 
-	public void setCardHolderName(String cardHolderName) {
-		this.cardHolderName = cardHolderName;
+	public void setHolderName(String holderName) {
+		this.holderName = holderName;
 	}
 
-	public Date getExpiryDate() {
-		return expiryDate;
+	public Date getExpirationDate() {
+		return expirationDate;
 	}
 
-	public void setExpiryDate(Date expiryDate) {
-		this.expiryDate = expiryDate;
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 	
 	public BigDecimal getAmount() {
@@ -89,7 +89,7 @@ public class CreditCard {
 
 	@Override
 	public String toString(){
-		return "CreditCard [id= " + id + ", pan= " + pan + ", cardHolderName= " + cardHolderName + ", securityCode= "
-				+ securityCode + ", expiryDate= " + expiryDate.toString() + ", amount= " + amount +  "]";
+		return "CreditCard [id= " + id + ", pan= " + pan + ", cardHolderName= " + holderName + ", securityCode= "
+				+ securityCode + ", expiryDate= " + expirationDate.toString() + ", amount= " + amount +  "]";
 	}
 }
