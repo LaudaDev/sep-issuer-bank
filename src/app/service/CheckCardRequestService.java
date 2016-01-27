@@ -1,14 +1,20 @@
 package app.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import app.model.CheckCardRequest;
+import app.repository.CheckCardRequestRepository;
 import app.util.Config;
 
 @Service
 public class CheckCardRequestService {
+	
+	@Autowired
+	private CheckCardRequestRepository checkCardRequestRepository;
 	
 	public boolean isRequestValid(CheckCardRequest request){
 		
@@ -29,7 +35,7 @@ public class CheckCardRequestService {
 			return false;
 		}
 		
-		if ( request.getCardInfo().getExpirationDate() == null ){
+		if ( request.getCardInfo().getExpirationDate() == null || !isExpirationDateValid(request.getCardInfo().getExpirationDate()) ){
 			return false;
 		}
 		
@@ -49,4 +55,47 @@ public class CheckCardRequestService {
 		
 		return true;
 	}
+	
+	public boolean isExpirationDateValid(String expirationDate){
+		
+		if ( !expirationDate.matches(Config.cardExpirationDateRegex) ) {
+			return false;
+		}
+		
+		String[] split = expirationDate.split("/");
+		int month = Integer.parseInt(split[0]);
+		int year = Integer.parseInt(split[1]);
+		
+		if ( month < 1 || month > 12 || year < 0 || year > 99 ) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public CheckCardRequest addCheckCardRequest(CheckCardRequest request){
+		request.setId(getNextId());
+		checkCardRequestRepository.save(request);
+		return request;
+	}
+	
+	public int getNextId(){
+		List<CheckCardRequest> requests = checkCardRequestRepository.findAll();
+		int id = 0;
+		for ( CheckCardRequest r : requests ){
+			if ( r.getId() > id ){
+				id = r.getId();
+			}
+		}
+		return ++id;
+	}
+		
+	public List<CheckCardRequest> getAllCheckCardRequests(){
+		return checkCardRequestRepository.findAll();
+	}
+	
+	public void deleteAllCheckCardRequests(){
+		checkCardRequestRepository.deleteAll();
+	}
+	
 }

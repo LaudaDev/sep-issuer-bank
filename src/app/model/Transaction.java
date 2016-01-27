@@ -5,11 +5,15 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Document
 public class Transaction {
 	
 	@Id
-	private String id;
+	private int id;
+	
+	@JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss", timezone="CET")
 	private Date timestamp;
 	private CheckCardRequest request;
 	
@@ -23,11 +27,11 @@ public class Transaction {
 		this.request = request;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

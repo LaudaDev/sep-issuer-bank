@@ -1,40 +1,27 @@
 package app.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Document
 public class IssuerInfo {
 	
-	private int id;
 	private int orderId;
 	
-	@DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
-	private Date timestamp;
-	private BigDecimal transactionAmount;
-	
+	@JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss", timezone="CET")
+	private Date timestamp;	
 	
 	public IssuerInfo() {
 		super();
 	}
 
-	public IssuerInfo(int id, int orderId, Date timestamp, BigDecimal transactionAmount) {
+	public IssuerInfo(int orderId, Date timestamp) {
 		super();
-		this.id = id;
 		this.orderId = orderId;
 		this.timestamp = timestamp;
-		this.transactionAmount = transactionAmount;		
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public int getOrderId() {
@@ -51,14 +38,5 @@ public class IssuerInfo {
 
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
-	}
-
-	public BigDecimal getTransactionAmount() {
-		return transactionAmount;
-	}
-
-	public void setTransactionAmount(BigDecimal transactionAmount) {
-		this.transactionAmount = transactionAmount;
-	}
-	
+	}	
 }

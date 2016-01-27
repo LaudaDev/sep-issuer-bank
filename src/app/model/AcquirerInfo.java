@@ -13,7 +13,7 @@ public class AcquirerInfo {
 	
 	private int orderId;
 	
-	@JsonFormat(pattern = Config.timestampFormat, timezone="CET")
+	@JsonFormat(pattern = Config.timestampFormat)
 	private Date timestamp;
 	
 	public AcquirerInfo(){

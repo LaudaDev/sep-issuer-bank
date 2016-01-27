@@ -16,5 +16,6 @@ public class Config {
 		statusCodes.put("05", "SERVER_ERROR");
 	};	
 	public static final String timestampFormat = "dd.MM.yyyy HH:mm:ss";
+	public static final String cardExpirationDateRegex = "[0-9]{1,2}/[0-9]{2}";
 	public static final String cardExpirationDateFormat = "MM/yy";
 }

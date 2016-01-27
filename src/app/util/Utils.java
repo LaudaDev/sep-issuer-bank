@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
@@ -34,15 +33,13 @@ public class Utils {
 				int securityCode = Integer.parseInt((pan.toString().substring(0, 3)));
 				
 				String cardHolderName = "Card " + i;
-				Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-				calendar.add(Calendar.DAY_OF_YEAR, (random.nextInt() % 1825) - 365);
-				calendar.set(Calendar.MILLISECOND, 0);
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				
+				int month = Math.abs(random.nextInt()) % 12 + 1;
+				int year = Math.abs(random.nextInt()) % 5 + 2015;
+				String expiration = month + "/" + (Integer.toString(year)).substring(2);
 				BigDecimal amount = new BigDecimal(random.nextDouble() * 950000 + 50000).setScale(2, RoundingMode.CEILING);
  			
-				CreditCard card = new CreditCard(pan.toString(), securityCode, cardHolderName, calendar.getTime(), amount);
+				CreditCard card = new CreditCard(pan.toString(), securityCode, cardHolderName, expiration, amount);
 				card.setId(i);
 				cards.add(card);
 			}

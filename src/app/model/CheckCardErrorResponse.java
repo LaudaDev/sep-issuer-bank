@@ -1,14 +1,14 @@
 package app.model;
 
-public class CheckCardBadRequestResponse extends Response {
+public class CheckCardErrorResponse extends Response {
 	
 	private TransactionStatus transactionStatus;
 	
-	public CheckCardBadRequestResponse() {
+	public CheckCardErrorResponse() {
 		super();
 	}
 	
-	public CheckCardBadRequestResponse(TransactionStatus transactionStatus) {
+	public CheckCardErrorResponse(TransactionStatus transactionStatus) {
 		super();
 		this.transactionStatus = transactionStatus;
 	}

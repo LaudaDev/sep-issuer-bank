@@ -1,7 +1,6 @@
 package app.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,14 +13,14 @@ public class CreditCard {
 	private String pan;
 	private int securityCode;
 	private String holderName;
-	private Date expirationDate;
+	private String expirationDate;
 	private BigDecimal amount;
 	
 	public CreditCard(){
 		super();
 	}
 	
-	public CreditCard(String pan, int securityCode, String holderName, Date expirationDate, BigDecimal amount){
+	public CreditCard(String pan, int securityCode, String holderName, String expirationDate, BigDecimal amount){
 		super();
 		this.pan = pan;
 		this.securityCode = securityCode;
@@ -62,11 +61,11 @@ public class CreditCard {
 		this.holderName = holderName;
 	}
 
-	public Date getExpirationDate() {
+	public String getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 	

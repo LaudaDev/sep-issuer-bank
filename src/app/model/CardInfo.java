@@ -1,12 +1,6 @@
 package app.model;
 
-import java.util.Date;
-
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import app.util.Config;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Document
 public class CardInfo {
@@ -14,15 +8,13 @@ public class CardInfo {
 	private String pan;
 	private int securityCode;
 	private String holderName;
-	
-	@JsonFormat(pattern = Config.cardExpirationDateFormat, timezone="CET")
-	private Date expirationDate;
+	private String expirationDate;
 	
 	public CardInfo(){
 		super();
 	}
 
-	public CardInfo(String pan, int securityCode, String holderName, Date expirationDate) {
+	public CardInfo(String pan, int securityCode, String holderName, String expirationDate) {
 		super();
 		this.pan = pan;
 		this.securityCode = securityCode;
@@ -54,11 +46,11 @@ public class CardInfo {
 		this.holderName = holderName;
 	}
 
-	public Date getExpirationDate() {
+	public String getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(String expirationDate) {
 		this.expirationDate = expirationDate;
 	}	
 }
