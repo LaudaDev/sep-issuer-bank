@@ -5,7 +5,7 @@ Spring Boot & MongoDB
 
 
 Available methods:
-  bank/checkcard
+  api/issuer/auth
   
   Input message format (example):
     {
