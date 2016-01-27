@@ -13,7 +13,7 @@ import app.model.CheckCardRequest;
 import app.service.CheckCardRequestService;
 
 @RestController
-@RequestMapping("data/checkcreditcardrequests")
+@RequestMapping("api/issuer/data/checkcreditcardrequests")
 public class CheckCardRequestController {
 	
 	@Autowired

@@ -16,7 +16,7 @@ import app.service.CheckCardResponseService;
 
 
 @RestController
-@RequestMapping("/bank")
+@RequestMapping("/api/issuer")
 public class BankController {
 	
 	@Autowired
@@ -28,20 +28,16 @@ public class BankController {
 	@Autowired
 	private CardService cardService;
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/checkcard")
+	@RequestMapping(method = RequestMethod.POST, value = "/auth")
 	public Response checkCreditCard(@RequestBody CheckCardRequest request){
 		
-		System.out.println(request.toString());
-		
 		if ( !checkCardRequestService.isRequestValid(request) ){
-			System.out.println("invalid");
 			return checkCardResponseService.createErrorResponse("04");
 		}
 		
 		CreditCard card = cardService.findCreditCard(request.getCardInfo());
 		
 		if ( card == null ){
-			System.out.println("invalid card");
 			return checkCardResponseService.createErrorResponse("01");
 		}
 		
@@ -50,20 +46,15 @@ public class BankController {
 		CheckCardRequest savedRequest = checkCardRequestService.addCheckCardRequest(request);
 		
 		if ( !card.canPay(savedRequest.getTransactionAmount()) ) {
-			System.out.println("not enough money");
 			return checkCardResponseService.createErrorResponse("02");
 		}
 		
 		Transaction transaction = cardService.doPaying(card, savedRequest);
 		
 		if ( transaction == null ){
-			System.out.println("error");
 			return checkCardResponseService.createErrorResponse("05");
 		}
 		
-		
-		
-		System.out.println("valid");
 		return checkCardResponseService.createResponse("00", transaction);
 	}
 				

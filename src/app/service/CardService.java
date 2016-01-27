@@ -82,8 +82,6 @@ public class CardService {
 			if ( isCardExpired(card) ){
 				card = null;
 			}
-		} else {
-			System.out.println("card not found");
 		}
 
 		return card;

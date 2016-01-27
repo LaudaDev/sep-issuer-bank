@@ -15,7 +15,7 @@ import app.model.CreditCard;
 import app.service.CardService;
 
 @RestController
-@RequestMapping("data/creditcards")
+@RequestMapping("api/issuer/data/creditcards")
 public class CreditCardController {
 	
 	@Autowired

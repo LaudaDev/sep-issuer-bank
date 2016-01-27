@@ -14,7 +14,7 @@ import app.service.TransactionService;
 
 
 @RestController
-@RequestMapping("data/transactions")
+@RequestMapping("api/issuer/data/transactions")
 public class TransactionController {
 	
 	@Autowired

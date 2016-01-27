@@ -49,7 +49,7 @@ public class CheckCardRequestService {
 		}
 		
 		// transaction amount
-		if  ( request.getTransactionAmount().compareTo(BigDecimal.valueOf(0)) != 1 ) {
+		if  ( request.getTransactionAmount() == null || request.getTransactionAmount().compareTo(BigDecimal.valueOf(0)) != 1 ) {
 			return false;
 		}	
 		
