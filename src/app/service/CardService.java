@@ -47,15 +47,13 @@ public class CardService {
 		return creditCardRepository.findAll();
 	}
 	
-	public CreditCard getCardById(String id){
-		List<CreditCard> cards = creditCardRepository.findAll();
-		int idd = Integer.parseInt(id);
-		for ( CreditCard c : cards ){
-			if ( c.getId() == idd ){
-				return c;
-			}
+	public CreditCard getCardById(String id){	
+		CreditCard card = creditCardRepository.getCardById(Integer.parseInt(id));
+		if ( card != null ){
+			return card;
+		} else {
+			return null;
 		}
-		return null;
 	}
 	
 	public void generateDefaultCards(){		
@@ -68,15 +66,7 @@ public class CardService {
 	
 	public CreditCard findCreditCard(CardInfo cardInfo){
 		CreditCard card = null;
-		List<CreditCard> cards = creditCardRepository.findAll();
-		
-		for ( CreditCard c : cards){
-			if ( c.getPan().equals(cardInfo.getPan()) && c.getSecurityCode() == cardInfo.getSecurityCode() &&
-					c.getExpirationDate().equals(cardInfo.getExpirationDate()) ){
-				card = c;
-				break;
-			}
-		}
+		card = creditCardRepository.getCardByPanCodeExpiration(cardInfo.getPan(), cardInfo.getSecurityCode(), cardInfo.getExpirationDate());
 		
 		if ( card != null ){
 			if ( isCardExpired(card) ){

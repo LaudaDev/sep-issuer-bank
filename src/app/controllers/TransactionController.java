@@ -20,7 +20,7 @@ public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@RequestMapping(method = RequestMethod.GET)
 	public List<Transaction> getTransactions(){
 		return transactionService.getAllTransactions();
 	}

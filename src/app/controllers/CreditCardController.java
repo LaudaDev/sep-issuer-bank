@@ -49,7 +49,7 @@ public class CreditCardController {
 		return cardService.getCardById(cardId);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@RequestMapping(method = RequestMethod.GET)
 	public List<CreditCard> getAllCards(){
 		return cardService.getAllCreditCards();
 	}	

@@ -19,7 +19,7 @@ public class CheckCardRequestController {
 	@Autowired
 	private CheckCardRequestService checkCardRequestService;
 		
-	@RequestMapping(method = RequestMethod.GET, value = "/all")
+	@RequestMapping(method = RequestMethod.GET)
 	public List<CheckCardRequest> getAllCheckCardRequests(){
 		return checkCardRequestService.getAllCheckCardRequests();
 	}
