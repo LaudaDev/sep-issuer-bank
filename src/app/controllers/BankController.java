@@ -35,6 +35,10 @@ public class BankController {
 			return checkCardResponseService.createErrorResponse("04");
 		}
 		
+		if ( checkCardRequestService.isRequestAllreadyProcessed(request.getAcquirerInfo()) ){
+			return checkCardResponseService.createErrorResponse("04");
+		}
+		
 		CheckCardRequest savedRequest = checkCardRequestService.addCheckCardRequest(request);
 		
 		CreditCard card = cardService.findCreditCard(savedRequest.getCardInfo());
@@ -42,9 +46,7 @@ public class BankController {
 		if ( card == null ){
 			return checkCardResponseService.createErrorResponse("01");
 		}
-		
-		// TODO check if request with same timestamp already exists
-		
+				
 		if ( !card.canPay(savedRequest.getTransactionAmount()) ) {
 			return checkCardResponseService.createErrorResponse("02");
 		}

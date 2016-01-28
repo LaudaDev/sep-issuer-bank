@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import app.model.AcquirerInfo;
 import app.model.CheckCardRequest;
 import app.repository.CheckCardRequestRepository;
 import app.util.Config;
@@ -71,6 +72,15 @@ public class CheckCardRequestService {
 		}
 		
 		return true;
+	}
+	
+	public boolean isRequestAllreadyProcessed(AcquirerInfo acquirerInfo){
+		CheckCardRequest request = checkCardRequestRepository.findRequestByAcquirerInfo(acquirerInfo.getOrderId(), acquirerInfo.getTimestamp());
+		if ( request != null ){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public CheckCardRequest addCheckCardRequest(CheckCardRequest request){
