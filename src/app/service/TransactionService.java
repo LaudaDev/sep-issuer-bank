@@ -14,6 +14,9 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
+	@Autowired
+	private CustomQueriesService customQueriesService;
+	
 	public Transaction addTransaction(Transaction transaction){
 		transaction.setId(getNextId());
 		transactionRepository.save(transaction);
@@ -21,13 +24,14 @@ public class TransactionService {
 	}
 	
 	public int getNextId(){
-		List<Transaction> transactions = transactionRepository.findAll();
+		/*List<Transaction> transactions = transactionRepository.findAll();
 		int id = 0;
 		for ( Transaction t : transactions ){
 			if ( t.getId() > id ){
 				id = t.getId();
 			}
-		}
+		}*/
+		int id = customQueriesService.getMaxId("Transaction");
 		return ++id;
 	}
 	

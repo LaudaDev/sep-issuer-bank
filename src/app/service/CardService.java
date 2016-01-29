@@ -26,6 +26,9 @@ public class CardService {
 	@Autowired
 	private TransactionService transactionService;
 	
+	@Autowired
+	private CustomQueriesService customQueriesService;
+	
 	public CreditCard addCard(CreditCard card){
 		card.setId(getNextId());
 		creditCardRepository.save(card);
@@ -33,13 +36,7 @@ public class CardService {
 	}
 	
 	public int getNextId(){
-		List<CreditCard> cards = creditCardRepository.findAll();
-		int id = 0;
-		for ( CreditCard c : cards ){
-			if ( c.getId() > id ){
-				id = c.getId();
-			}
-		}
+		int id = customQueriesService.getMaxId("CreditCard");
 		return ++id;
 	}
 	

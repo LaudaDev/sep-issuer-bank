@@ -17,6 +17,9 @@ public class CheckCardRequestService {
 	@Autowired
 	private CheckCardRequestRepository checkCardRequestRepository;
 	
+	@Autowired
+	private CustomQueriesService customQueriesService;
+	
 	public boolean isRequestValid(CheckCardRequest request){
 		
 		if ( request == null ){
@@ -90,13 +93,15 @@ public class CheckCardRequestService {
 	}
 	
 	public int getNextId(){
-		List<CheckCardRequest> requests = checkCardRequestRepository.findAll();
+		/*List<CheckCardRequest> requests = checkCardRequestRepository.findAll();
 		int id = 0;
 		for ( CheckCardRequest r : requests ){
 			if ( r.getId() > id ){
 				id = r.getId();
 			}
-		}
+		}*/
+		
+		int id = customQueriesService.getMaxId("CheckCardRequest");
 		return ++id;
 	}
 		
