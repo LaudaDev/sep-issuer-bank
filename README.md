@@ -51,3 +51,21 @@ Available methods:
 		        "code": "04",
 		        "message": "REQUEST_FORMAT_ERROR"
 		}
+
+
+#How to start project
+
+- clone development branch from github
+	git clone -b development https://github.com/LaudaDev/sep-issuer-bank.git
+	
+- in eclipse import project as existing maven project
+
+- right click on project -> team -> disconnect
+
+- right click on src folder -> build path -> use as source folder
+
+- right click on project -> run as -> maven build and set goals on "clean install"
+
+- run as -> java application (select application and click ok)
+
+- in case of Error: Could not find or load main class app.Application error, go to project -> clean and run again
