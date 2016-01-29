@@ -66,7 +66,7 @@ public class CardService {
 	
 	public CreditCard findCreditCard(CardInfo cardInfo){
 		CreditCard card = null;
-		card = creditCardRepository.getCardByPanCodeExpiration(cardInfo.getPan(), cardInfo.getSecurityCode(), cardInfo.getExpirationDate());
+		card = creditCardRepository.getCardByPanCodeHolderNameExpiration(cardInfo.getPan(), cardInfo.getSecurityCode(), cardInfo.getHolderName(), cardInfo.getExpirationDate());
 		
 		if ( card != null ){
 			if ( isCardExpired(card) ){

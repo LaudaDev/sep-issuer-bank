@@ -10,6 +10,6 @@ public interface CreditCardRepository extends MongoRepository<CreditCard, String
 	@Query(value="{ '_id' : ?0}")
 	public CreditCard getCardById(int id);
 	
-	@Query(value="{ 'pan': ?0, 'securityCode': ?1, 'expirationDate': ?2}")
-	public CreditCard getCardByPanCodeExpiration(String pan, int code, String expiration);
+	@Query(value="{ 'pan': ?0, 'securityCode': ?1, 'holderName': ?2, 'expirationDate': ?3}")
+	public CreditCard getCardByPanCodeHolderNameExpiration(String pan, int code, String holderName, String expiration);
 }
