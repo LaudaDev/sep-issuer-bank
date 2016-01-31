@@ -1,8 +1,11 @@
 package app.service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,43 +23,60 @@ public class CheckCardRequestService {
 	@Autowired
 	private CustomQueriesService customQueriesService;
 	
+	private static final Logger logger = Logger.getLogger(CheckCardRequestService.class);
+	
 	public boolean isRequestValid(CheckCardRequest request){
 		
+		logger.info("Processing new request");
 		if ( request == null ){
+			logger.error("Request is null");
 			return false;
 		}
 		
 		// card info
 		if ( request.getCardInfo().getPan() == null || !request.getCardInfo().getPan().matches(Config.panRegex) ){
+			logger.error("Pan is invalid");
+			return false;
+		}
+		
+		if ( !request.getCardInfo().getPan().startsWith(Config.issuerBankCode) ) {
+			logger.error("Pan is not from issuer bank");
 			return false;
 		}
 		
 		if ( request.getCardInfo().getSecurityCode() < 100 || request.getCardInfo().getSecurityCode() > 999 ) {
+			logger.error("Security code is invalid");
 			return false;
 		}
 		
 		if ( request.getCardInfo().getHolderName() == null || request.getCardInfo().getHolderName().equals("") ){
+			logger.error("Card holder name is invalid");
 			return false;
 		}
 		
 		if ( request.getCardInfo().getExpirationDate() == null || !isExpirationDateValid(request.getCardInfo().getExpirationDate()) ){
+			logger.error("Expiration date is invalid");
 			return false;
 		}
 		
 		// acquirer info
 		if ( request.getAcquirerInfo().getOrderId() < 1 ){
+			logger.error("Acquirer's orderId is invalid");
 			return false;
 		}
 		
 		if ( request.getAcquirerInfo().getTimestamp() == null ){
+			logger.error("Acquirer's timestamp is invalid");
 			return false;
 		}
 		
 		// transaction amount
 		if  ( request.getTransactionAmount() == null || request.getTransactionAmount().compareTo(BigDecimal.valueOf(0)) != 1 ) {
+			logger.error("Transaction amount is invalid");
 			return false;
-		}	
+		}
 		
+		logger.info("Request is valid");		
 		return true;
 	}
 	
@@ -80,6 +100,11 @@ public class CheckCardRequestService {
 	public boolean isRequestAllreadyProcessed(AcquirerInfo acquirerInfo){
 		CheckCardRequest request = checkCardRequestRepository.findRequestByAcquirerInfo(acquirerInfo.getOrderId(), acquirerInfo.getTimestamp());
 		if ( request != null ){
+			
+			SimpleDateFormat format = new SimpleDateFormat(Config.timestampFormat);
+			format.setTimeZone(TimeZone.getTimeZone("CET"));
+			logger.error("Request with acquirer's orderdId=" + acquirerInfo.getOrderId() + " and timestamp=" +
+						format.format(acquirerInfo.getTimestamp()) + " has already been processed");
 			return true;
 		} else {
 			return false;
@@ -89,18 +114,11 @@ public class CheckCardRequestService {
 	public CheckCardRequest addCheckCardRequest(CheckCardRequest request){
 		request.setId(getNextId());
 		checkCardRequestRepository.save(request);
+		logger.info("Request with id=" + request.getId() + " saved");
 		return request;
 	}
 	
 	public int getNextId(){
-		/*List<CheckCardRequest> requests = checkCardRequestRepository.findAll();
-		int id = 0;
-		for ( CheckCardRequest r : requests ){
-			if ( r.getId() > id ){
-				id = r.getId();
-			}
-		}*/
-		
 		int id = customQueriesService.getMaxId("CheckCardRequest");
 		return ++id;
 	}

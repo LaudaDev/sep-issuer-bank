@@ -24,13 +24,6 @@ public class TransactionService {
 	}
 	
 	public int getNextId(){
-		/*List<Transaction> transactions = transactionRepository.findAll();
-		int id = 0;
-		for ( Transaction t : transactions ){
-			if ( t.getId() > id ){
-				id = t.getId();
-			}
-		}*/
 		int id = customQueriesService.getMaxId("Transaction");
 		return ++id;
 	}

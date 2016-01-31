@@ -47,7 +47,7 @@ public class BankController {
 			return checkCardResponseService.createErrorResponse("01");
 		}
 				
-		if ( !card.canPay(savedRequest.getTransactionAmount()) ) {
+		if ( !cardService.canPay(savedRequest.getTransactionAmount(), card) ){
 			return checkCardResponseService.createErrorResponse("02");
 		}
 		

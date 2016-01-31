@@ -1,11 +1,13 @@
 package app.service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,8 @@ public class CardService {
 	
 	@Autowired
 	private CustomQueriesService customQueriesService;
+	
+	private static final Logger logger = Logger.getLogger(CardService.class);
 	
 	public CreditCard addCard(CreditCard card){
 		card.setId(getNextId());
@@ -67,8 +71,11 @@ public class CardService {
 		
 		if ( card != null ){
 			if ( isCardExpired(card) ){
+				logger.error("Card (" + cardInfo.getPan() + ") expired");
 				card = null;
 			}
+		} else {
+			logger.error("Card not found based on information in cardInfo of request");
 		}
 
 		return card;
@@ -105,10 +112,20 @@ public class CardService {
 			transaction = transactionService.addTransaction(transaction);
 			card.setAmount(card.getAmount().subtract(request.getTransactionAmount()));
 			creditCardRepository.save(card);
+			logger.info("Transaction with id=" + transaction.getId() + " saved, based on request with id=" + request.getId());
 			return transaction;
 		} catch (Exception e){
 			return null;
 		}
 	}
+	
+	public boolean canPay(BigDecimal payingAmount, CreditCard card){
+			boolean can = true;
+			if ( card.getAmount().compareTo(payingAmount) == -1 ){
+				logger.error("Card (" + card.getPan() + ") has no enough money");
+				can = false;
+			}
+			return can;
+		}
 	
 }

@@ -53,7 +53,7 @@ public class CreditCard {
 		this.securityCode = securityCode;
 	}
 
-	public String getholderName() {
+	public String getHolderName() {
 		return holderName;
 	}
 
@@ -75,15 +75,6 @@ public class CreditCard {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-	
-	// check available amount against paying amount
-	public boolean canPay(BigDecimal payingAmount){
-		boolean can = true;
-		if ( this.amount.compareTo(payingAmount) == -1 ){
-			can = false;
-		}
-		return can;
 	}
 
 	@Override
