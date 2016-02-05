@@ -7,9 +7,9 @@ Spring Boot & MongoDB
 Available methods:
 
 	  api/issuer/auth
-	  
+
 	  Input message format (example):
-	  
+
 	    {
 		    "cardInfo": {
 		       "pan": "1111111111111111",
@@ -17,18 +17,18 @@ Available methods:
 		       "holderName": "Card 1",
 		       "expirationDate": "11/17"
 		    },
-		 
+
 		    "acquirerInfo": {
 		       "orderId": "1",
 		       "timestamp": "25.01.2016 17:36:33"
 		    },
-		 
+
 		    "transactionAmount": "7500"
 		}
-	    
+
 	  Output message format (example):
 	    success:
-	    
+
 	    {
 		    "acquirerInfo": {
 		        "orderId": 1,
@@ -43,9 +43,9 @@ Available methods:
 		        "message": "TRANSACTION_COMPLETED"
 		    }
 	    }
-	    
+
 	  error (list of error codes is available at: https://github.com/LaudaDev/sep-pcc):
-	  
+
 	     {
 		    "transactionStatus": {
 		        "code": "04",
@@ -57,7 +57,7 @@ Available methods:
 
 - clone development branch from github
 	git clone -b development https://github.com/LaudaDev/sep-issuer-bank.git
-	
+
 - in eclipse import project as existing maven project
 
 - right click on project -> team -> disconnect
